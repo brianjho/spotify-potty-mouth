@@ -1,3 +1,5 @@
+References: https://www.youtube.com/watch?v=wBq3HCvYfUg, https://betterprogramming.pub/how-to-host-your-react-app-on-github-pages-for-free-919ad201a4cb, https://github.com/huangdarren1106/huangdarren1106.github.io/tree/main/src
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
