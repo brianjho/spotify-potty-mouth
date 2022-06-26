@@ -13,6 +13,10 @@ function App() {
   const [token, setToken] = useState("")
   const [searchKey, setSearchKey] = useState("")
   const [artists, setArtists] = useState([])
+  const [topTracks, setTopTracks] = useState([])
+  const [numTracks, setNumTracks] = useState(0)
+  const [numExplicitTracks, setNumExplicitTracks] = useState(0)
+  const [readyToRender, setReadyToRender] = useState(false)
 
   useEffect(() => {
     const hash = window.location.hash
@@ -25,6 +29,10 @@ function App() {
     }
     setToken(token)
   }, [])
+
+  const authSpotify = () => {
+    window.location.href = AUTH_ENDPOINT + "?client_id=" + CLIENT_ID + "&scope=" + SCOPE + "&redirect_uri=" + REDIRECT_URI + "&response_type=" + RESPONSE_TYPE
+  }
 
   const searchArtists = async (e) => {
     e.preventDefault()
@@ -45,18 +53,45 @@ function App() {
 
   const searchTopTracks = async (e) => {
     e.preventDefault()
-    const {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
+    var {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        limit: 49,
+        offset: 0,
+        time_range: "medium_term"
+      }
+    })
+    const topTracksGroup1 = data.items
+
+    var {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
       headers: {
         Authorization: `Bearer ${token}`
       },
       params: {
         limit: 50,
-        offset: 0,
+        offset: 49,
         time_range: "medium_term"
       }
     })
+    const topTracksGroup2 = data.items
 
-    console.log(data)
+    var top99Tracks = topTracksGroup1.concat(topTracksGroup2)
+
+    var numExplicit = 0
+    for (let x in top99Tracks) {
+      if (top99Tracks[x].explicit) {
+        numExplicit += 1
+      }
+    }
+
+    setNumTracks(top99Tracks.length)
+    setNumExplicitTracks(numExplicit)
+    setTopTracks(top99Tracks)
+    console.log(top99Tracks)
+
+    setReadyToRender(true)
   }
 
   const renderArtists = () => {
@@ -68,29 +103,31 @@ function App() {
     ))
   }
 
+  const renderTracks = () => {
+    return topTracks.map(track => (
+      <div key={track.id}>
+        {track.name}
+        {track.explicit ? <div>Explicit!</div> : <div>Not Explicit!</div>}
+      </div>
+    ))
+  }
+
+  const renderGeneral = () => {
+    return <div>{readyToRender ? `Found ${numExplicitTracks} explicit tracks out of your top ${numTracks} tracks within the past 6 months.` : ``}</div>
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&scope=${SCOPE}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
-
-        {token ?
-          <button onClick={searchTopTracks}>Get top tracks</button>
-          : <h2>Please login</h2>
-        }
-
+        <div>
+          <button onClick={authSpotify}>Login to Spotify</button>
+        </div>
+        <div>
+          {token ? <button onClick={searchTopTracks}>Get top tracks</button> : <h2>Please login</h2>}
+        </div>
         {renderArtists()}
+        {renderGeneral()}
       </header>
     </div>
   );
