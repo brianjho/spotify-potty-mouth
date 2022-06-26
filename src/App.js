@@ -5,6 +5,7 @@ import axios from 'axios';
 
 function App() {
   const CLIENT_ID = "95da64f2678a49c0bfb5e91ab0b66d1e"
+  const SCOPE = "user-top-read"
   const REDIRECT_URI = window.location.protocol + '//' + window.location.host + '/spotify-potty-mouth'
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
@@ -17,7 +18,7 @@ function App() {
     const hash = window.location.hash
     let token = window.localStorage.getItem("token")
 
-    if(!token && hash) {
+    if (hash) {
       token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
       window.location.hash = ""
       window.localStorage.setItem("token", token)
@@ -40,6 +41,22 @@ function App() {
     console.log(data)
 
     setArtists(data.artists.items)
+  }
+
+  const searchTopTracks = async (e) => {
+    e.preventDefault()
+    const {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        limit: 50,
+        offset: 0,
+        time_range: "medium_term"
+      }
+    })
+
+    console.log(data)
   }
 
   const renderArtists = () => {
@@ -66,14 +83,10 @@ function App() {
         >
           Learn React
         </a>
-        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
+        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&scope=${SCOPE}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
 
         {token ?
-          <form onSubmit={searchArtists}>
-            <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-            <button type="submit">Search</button>
-          </form>
-
+          <button onClick={searchTopTracks}>Get top tracks</button>
           : <h2>Please login</h2>
         }
 
