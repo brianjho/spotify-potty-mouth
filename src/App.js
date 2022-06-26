@@ -3,6 +3,10 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
+import fontawesome from '@fortawesome/fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faToilet } from '@fortawesome/free-solid-svg-icons'
+
 function App() {
   const CLIENT_ID = "95da64f2678a49c0bfb5e91ab0b66d1e"
   const SCOPE = "user-top-read"
@@ -17,6 +21,8 @@ function App() {
   const [numTracks, setNumTracks] = useState(0)
   const [numExplicitTracks, setNumExplicitTracks] = useState(0)
   const [readyToRender, setReadyToRender] = useState(false)
+  const [username, setUsername] = useState("")
+  const [userProfilePictureUrl, setUserProfilePictureUrl] = useState("")
 
   useEffect(() => {
     const hash = window.location.hash
@@ -30,12 +36,25 @@ function App() {
     setToken(token)
   }, [])
 
+  const getUser = async (e) => {
+    const {data} = await axios.get("https://api.spotify.com/v1/me", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    setUsername(data.display_name)
+    if (data.images.length > 0) {
+      setUserProfilePictureUrl(data.images[0].url)
+    }
+    searchTopTracks(token)
+  }
+
   const authSpotify = () => {
     window.location.href = AUTH_ENDPOINT + "?client_id=" + CLIENT_ID + "&scope=" + SCOPE + "&redirect_uri=" + REDIRECT_URI + "&response_type=" + RESPONSE_TYPE
   }
 
   const searchArtists = async (e) => {
-    e.preventDefault()
     const {data} = await axios.get("https://api.spotify.com/v1/search", {
       headers: {
         Authorization: `Bearer ${token}`
@@ -46,13 +65,10 @@ function App() {
       }
     })
 
-    console.log(data)
-
     setArtists(data.artists.items)
   }
 
   const searchTopTracks = async (e) => {
-    e.preventDefault()
     var {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
       headers: {
         Authorization: `Bearer ${token}`
@@ -89,18 +105,16 @@ function App() {
     setNumTracks(top99Tracks.length)
     setNumExplicitTracks(numExplicit)
     setTopTracks(top99Tracks)
-    console.log(top99Tracks)
 
     setReadyToRender(true)
   }
 
-  const renderArtists = () => {
-    return artists.map(artist => (
-      <div key={artist.id}>
-        {artist.images.length ? <img width={"100%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
-        {artist.name}
-      </div>
-    ))
+  const renderTitle = () => {
+    return <div>{username ? `${username}'s` : ``} Spotify Potty Mouth:</div>
+  }
+
+  const renderFace = () => {
+    return <div><img width={"100%"} src={userProfilePictureUrl} alt=""/></div>
   }
 
   const renderTracks = () => {
@@ -116,17 +130,22 @@ function App() {
     return <div>{readyToRender ? `Found ${numExplicitTracks} explicit tracks out of your top ${numTracks} tracks within the past 6 months.` : ``}</div>
   }
 
+  fontawesome.library.add(faToilet);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {renderTitle()}
+        <div className="Outer">
+          <FontAwesomeIcon className="Toilet-white" icon={faToilet} size="10x"/>
+          <FontAwesomeIcon className="Toilet-brown" icon={faToilet} size="10x"/>
+        </div>
         <div>
           <button onClick={authSpotify}>Login to Spotify</button>
         </div>
         <div>
-          {token ? <button onClick={searchTopTracks}>Get top tracks</button> : <h2>Please login</h2>}
+          {token ? <button onClick={getUser}>Get top tracks</button> : <h2>Please login</h2>}
         </div>
-        {renderArtists()}
         {renderGeneral()}
       </header>
     </div>

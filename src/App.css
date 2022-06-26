@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.Outer {
+  position: relative;
+}
+
+.Toilet-white {
+  color: white;
+  position: relative;
+  z-index: 0;
+  clip-path: polygon(0% 30%, 100% 30%, 100% 0%, 0% 0%);
+}
+
+.Toilet-brown {
+  color: brown;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  clip-path: polygon(0% 30%, 100% 30%, 100% 100%, 0% 100%);
+}
