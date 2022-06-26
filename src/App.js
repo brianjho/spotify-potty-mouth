@@ -23,6 +23,7 @@ function App() {
   const [readyToRender, setReadyToRender] = useState(false)
   const [username, setUsername] = useState("")
   const [userProfilePictureUrl, setUserProfilePictureUrl] = useState("")
+  const [percentageNonExplicit, setPercentageNonExplicit] = useState("100%")
 
   useEffect(() => {
     const hash = window.location.hash
@@ -105,6 +106,9 @@ function App() {
     setNumTracks(top99Tracks.length)
     setNumExplicitTracks(numExplicit)
     setTopTracks(top99Tracks)
+    if (top99Tracks.length > 0) {
+      setPercentageNonExplicit(parseInt(100 * (1 - (numExplicit / top99Tracks.length))) + '%')
+    }
 
     setReadyToRender(true)
   }
@@ -127,7 +131,21 @@ function App() {
   }
 
   const renderGeneral = () => {
-    return <div>{readyToRender ? `Found ${numExplicitTracks} explicit tracks out of your top ${numTracks} tracks within the past 6 months.` : ``}</div>
+    if (readyToRender) {
+      return <div>
+                Found {numExplicitTracks} explicit tracks out of your top {numTracks} tracks within the past 6 months.
+              </div>
+    }
+  }
+
+  const renderToilet = () => {
+    if (readyToRender) {
+      document.documentElement.style.setProperty('--end-toilet-height', percentageNonExplicit)
+      return <div className="Outer">
+                  <FontAwesomeIcon key="wToilet" className="Toilet-white" icon={faToilet} size="5x"/>
+                  <FontAwesomeIcon key="bToilet" className="Toilet-brown" icon={faToilet} size="5x"/>
+              </div>
+    }
   }
 
   fontawesome.library.add(faToilet);
@@ -136,16 +154,13 @@ function App() {
     <div className="App">
       <header className="App-header">
         {renderTitle()}
-        <div className="Outer">
-          <FontAwesomeIcon className="Toilet-white" icon={faToilet} size="10x"/>
-          <FontAwesomeIcon className="Toilet-brown" icon={faToilet} size="10x"/>
-        </div>
         <div>
           <button onClick={authSpotify}>Login to Spotify</button>
         </div>
         <div>
           {token ? <button onClick={getUser}>Get top tracks</button> : <h2>Please login</h2>}
         </div>
+        {renderToilet()}
         {renderGeneral()}
       </header>
     </div>

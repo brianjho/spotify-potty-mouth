@@ -19,8 +19,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  /* justify-content: center; */
+  font-size: calc(10px + 10vmin);
   color: white;
 }
 
@@ -37,6 +37,20 @@
   }
 }
 
+:root {
+  --end-toilet-height: 22%;
+}
+
+@keyframes white-toilet-fill {
+  0% { clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%); }
+  100% { clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 0%, 0% 0%); }
+}
+
+@keyframes brown-toilet-fill {
+  0% { clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%); }
+  100% { clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 100%, 0% 100%); }
+}
+
 .Outer {
   position: relative;
 }
@@ -45,7 +59,8 @@
   color: white;
   position: relative;
   z-index: 0;
-  clip-path: polygon(0% 30%, 100% 30%, 100% 0%, 0% 0%);
+  clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 0%, 0% 0%);
+  animation: white-toilet-fill 1s;
 }
 
 .Toilet-brown {
@@ -53,5 +68,6 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  clip-path: polygon(0% 30%, 100% 30%, 100% 100%, 0% 100%);
+  clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 100%, 0% 100%);
+  animation: brown-toilet-fill 1s;
 }
