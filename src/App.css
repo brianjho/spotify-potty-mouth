@@ -1,58 +1,39 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  background-color: #F3E5AB;
 }
 
 .App-header {
-  background-color: #282c34;
+  padding: 40px 40px 20px 20px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   /* justify-content: center; */
-  font-size: calc(10px + 10vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  font-size: calc(10px + 5vmin);
+  color: #282c34;
 }
 
 :root {
-  --end-toilet-height: 22%;
+  --end-toilet-height: 0%;
 }
 
 @keyframes white-toilet-fill {
   0% { clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%); }
+  15% { clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%); }
   100% { clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 0%, 0% 0%); }
 }
 
 @keyframes brown-toilet-fill {
   0% { clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%); }
+  15% { clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%); }
   100% { clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 100%, 0% 100%); }
 }
 
 .Outer {
   position: relative;
+  height: 55vh;
+  justify-content: center;
 }
 
 .Toilet-white {
@@ -60,14 +41,20 @@
   position: relative;
   z-index: 0;
   clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 0%, 0% 0%);
-  animation: white-toilet-fill 1s;
+  animation: white-toilet-fill 2s;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .Toilet-brown {
-  color: brown;
+  color: #7b5c00;
   position: absolute;
   top: 0px;
   left: 0px;
   clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 100%, 0% 100%);
-  animation: brown-toilet-fill 1s;
+  animation: brown-toilet-fill 2s;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }

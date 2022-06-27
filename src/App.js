@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
@@ -15,8 +14,6 @@ function App() {
   const RESPONSE_TYPE = "token"
 
   const [token, setToken] = useState("")
-  const [searchKey, setSearchKey] = useState("")
-  const [artists, setArtists] = useState([])
   const [topTracks, setTopTracks] = useState([])
   const [numTracks, setNumTracks] = useState(0)
   const [numExplicitTracks, setNumExplicitTracks] = useState(0)
@@ -24,6 +21,7 @@ function App() {
   const [username, setUsername] = useState("")
   const [userProfilePictureUrl, setUserProfilePictureUrl] = useState("")
   const [percentageNonExplicit, setPercentageNonExplicit] = useState("100%")
+  const [percentageExplicit, setPercentageExplicit] = useState("0%")
 
   useEffect(() => {
     const hash = window.location.hash
@@ -53,20 +51,6 @@ function App() {
 
   const authSpotify = () => {
     window.location.href = AUTH_ENDPOINT + "?client_id=" + CLIENT_ID + "&scope=" + SCOPE + "&redirect_uri=" + REDIRECT_URI + "&response_type=" + RESPONSE_TYPE
-  }
-
-  const searchArtists = async (e) => {
-    const {data} = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      params: {
-        q: searchKey,
-        type: "artist"
-      }
-    })
-
-    setArtists(data.artists.items)
   }
 
   const searchTopTracks = async (e) => {
@@ -108,13 +92,30 @@ function App() {
     setTopTracks(top99Tracks)
     if (top99Tracks.length > 0) {
       setPercentageNonExplicit(parseInt(100 * (1 - (numExplicit / top99Tracks.length))) + '%')
+      setPercentageExplicit(parseInt(100 * (numExplicit / top99Tracks.length)) + '%')
     }
 
     setReadyToRender(true)
   }
 
   const renderTitle = () => {
-    return <div>{username ? `${username}'s` : ``} Spotify Potty Mouth:</div>
+    if (!readyToRender) {
+      return <div>
+              <div>Spotify Potty Mouth:</div>
+              <div>
+                <button onClick={authSpotify}>Login to Spotify</button>
+              </div>
+            </div>
+    } else {
+      return <div>
+              <div>
+                {username ? `${username}'s` : ``} Spotify Potty Mouth:
+              </div>
+              <div>
+                <b>{percentageExplicit}</b>
+              </div>
+            </div>
+    }
   }
 
   const renderFace = () => {
@@ -132,9 +133,7 @@ function App() {
 
   const renderGeneral = () => {
     if (readyToRender) {
-      return <div>
-                Found {numExplicitTracks} explicit tracks out of your top {numTracks} tracks within the past 6 months.
-              </div>
+      return <div> {numExplicitTracks} of your top {numTracks} tracks were marked as explicit.</div>
     }
   }
 
@@ -142,24 +141,21 @@ function App() {
     if (readyToRender) {
       document.documentElement.style.setProperty('--end-toilet-height', percentageNonExplicit)
       return <div className="Outer">
-                  <FontAwesomeIcon key="wToilet" className="Toilet-white" icon={faToilet} size="5x"/>
-                  <FontAwesomeIcon key="bToilet" className="Toilet-brown" icon={faToilet} size="5x"/>
+                  <FontAwesomeIcon key="wToilet" className="Toilet-white" icon={faToilet} size="10x"/>
+                  <FontAwesomeIcon key="bToilet" className="Toilet-brown" icon={faToilet} size="10x"/>
               </div>
     }
   }
 
-  fontawesome.library.add(faToilet);
+  fontawesome.library.add(faToilet)
+  if (!readyToRender) {
+    getUser(token)
+  }
 
   return (
     <div className="App">
       <header className="App-header">
         {renderTitle()}
-        <div>
-          <button onClick={authSpotify}>Login to Spotify</button>
-        </div>
-        <div>
-          {token ? <button onClick={getUser}>Get top tracks</button> : <h2>Please login</h2>}
-        </div>
         {renderToilet()}
         {renderGeneral()}
       </header>
