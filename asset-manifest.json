@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/spotify-potty-mouth/static/css/main.b61eb25d.css",
+    "main.css": "/spotify-potty-mouth/static/css/main.cae15098.css",
     "main.js": "/spotify-potty-mouth/static/js/main.2171b7ae.js",
     "static/js/787.d6cb1aba.chunk.js": "/spotify-potty-mouth/static/js/787.d6cb1aba.chunk.js",
     "index.html": "/spotify-potty-mouth/index.html",
-    "main.b61eb25d.css.map": "/spotify-potty-mouth/static/css/main.b61eb25d.css.map",
+    "main.cae15098.css.map": "/spotify-potty-mouth/static/css/main.cae15098.css.map",
     "main.2171b7ae.js.map": "/spotify-potty-mouth/static/js/main.2171b7ae.js.map",
     "787.d6cb1aba.chunk.js.map": "/spotify-potty-mouth/static/js/787.d6cb1aba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b61eb25d.css",
+    "static/css/main.cae15098.css",
     "static/js/main.2171b7ae.js"
   ]
 }
