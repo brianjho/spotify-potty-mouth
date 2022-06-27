@@ -39,6 +39,7 @@
 .Toilet-white {
   color: white;
   position: relative;
+  height: 40vh;
   z-index: 0;
   clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 0%, 0% 0%);
   animation: white-toilet-fill 2s;
@@ -50,6 +51,7 @@
 .Toilet-brown {
   color: #7b5c00;
   position: absolute;
+  height: 40vh;
   top: 0px;
   left: 0px;
   clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 100%, 0% 100%);
