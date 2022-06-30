@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/spotify-potty-mouth/static/css/main.10041076.css",
-    "main.js": "/spotify-potty-mouth/static/js/main.f88a9969.js",
+    "main.css": "/spotify-potty-mouth/static/css/main.ebf51dc0.css",
+    "main.js": "/spotify-potty-mouth/static/js/main.e0af1921.js",
     "static/js/787.d6cb1aba.chunk.js": "/spotify-potty-mouth/static/js/787.d6cb1aba.chunk.js",
     "static/media/spotify_logo.png": "/spotify-potty-mouth/static/media/spotify_logo.0d1e5545dee9f6dc1079.png",
     "index.html": "/spotify-potty-mouth/index.html",
-    "main.10041076.css.map": "/spotify-potty-mouth/static/css/main.10041076.css.map",
-    "main.f88a9969.js.map": "/spotify-potty-mouth/static/js/main.f88a9969.js.map",
+    "main.ebf51dc0.css.map": "/spotify-potty-mouth/static/css/main.ebf51dc0.css.map",
+    "main.e0af1921.js.map": "/spotify-potty-mouth/static/js/main.e0af1921.js.map",
     "787.d6cb1aba.chunk.js.map": "/spotify-potty-mouth/static/js/787.d6cb1aba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.10041076.css",
-    "static/js/main.f88a9969.js"
+    "static/css/main.ebf51dc0.css",
+    "static/js/main.e0af1921.js"
   ]
 }
