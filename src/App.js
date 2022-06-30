@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import './App.css';
 import axios from 'axios';
+import spotify_logo from './spotify_logo.png'
 
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -53,6 +54,12 @@ function App() {
     window.location.href = AUTH_ENDPOINT + "?client_id=" + CLIENT_ID + "&scope=" + SCOPE + "&redirect_uri=" + REDIRECT_URI + "&response_type=" + RESPONSE_TYPE
   }
 
+  const removeAuthToken = () => {
+    window.localStorage.removeItem("token")
+    window.location.reload()
+
+  }
+
   const searchTopTracks = async (e) => {
     var {data} = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
       headers: {
@@ -100,14 +107,14 @@ function App() {
 
   const renderTitle = () => {
     if (!readyToRender) {
-      return <div>
+      return <div className="Big-font">
               <div>Spotify Potty Mouth:</div>
               <div>
                 <button onClick={authSpotify}>Login to Spotify</button>
               </div>
             </div>
     } else {
-      return <div>
+      return <div className="Big-font">
               <div>
                 {username ? `${username}'s` : ``} Spotify Potty Mouth:
               </div>
@@ -133,7 +140,10 @@ function App() {
 
   const renderGeneral = () => {
     if (readyToRender) {
-      return <div> {numExplicitTracks} of your top {numTracks} tracks were marked as explicit.</div>
+      return <div>
+              <div className="Big-font">{numExplicitTracks} of your top {numTracks} tracks were marked as explicit.</div>
+              <div><button onClick={removeAuthToken}>Log Out</button></div>
+              </div>
     }
   }
 
@@ -159,6 +169,10 @@ function App() {
         {renderToilet()}
         {renderGeneral()}
       </header>
+      <footer className="App-footer">
+        <div>Created by Brian Ho | Copyright 2022</div>
+        <img src={spotify_logo} className="Spotify-logo"/>
+      </footer>
     </div>
   );
 }

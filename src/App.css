@@ -1,17 +1,31 @@
 .App {
   text-align: center;
   background-color: #F3E5AB;
+  color: #282c34;
+  height: 100vh;
 }
 
 .App-header {
   padding: 40px 40px 20px 20px;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   /* justify-content: center; */
-  font-size: calc(10px + 5vmin);
   color: #282c34;
+}
+
+.Big-font {
+  font-size: calc(10px + 5vmin);
+}
+
+.App-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%
+}
+
+.Spotify-logo {
+  height: 5vh;
 }
 
 :root {
@@ -34,6 +48,7 @@
   position: relative;
   height: 55vh;
   justify-content: center;
+  font-size: calc(10px + 5vmin);
 }
 
 .Toilet-white {
