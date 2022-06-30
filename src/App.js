@@ -150,7 +150,7 @@ function App() {
   const renderToilet = () => {
     if (readyToRender) {
       document.documentElement.style.setProperty('--end-toilet-height', percentageNonExplicit)
-      return <div className="Outer">
+      return <div className="Toilet-container">
                   <FontAwesomeIcon key="wToilet" className="Toilet-white" icon={faToilet} size="10x"/>
                   <FontAwesomeIcon key="bToilet" className="Toilet-brown" icon={faToilet} size="10x"/>
               </div>
@@ -166,9 +166,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         {renderTitle()}
+      </header>
+      <body>
         {renderToilet()}
         {renderGeneral()}
-      </header>
+      </body>
       <footer className="App-footer">
         <div>Created by Brian Ho | Copyright 2022</div>
         <img src={spotify_logo} className="Spotify-logo"/>

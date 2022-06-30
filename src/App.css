@@ -10,21 +10,27 @@
   align-items: center;
   /* justify-content: center; */
   color: #282c34;
-  height: 100vh;
+}
+
+.App-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .Big-font {
   font-size: calc(10px + 5vmin);
 }
 
-.App-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%
-}
-
 .Spotify-logo {
   height: 5vh;
+}
+
+.Toilet-container {
+  position: relative;
+  height: 55vh;
+  justify-content: center;
+  font-size: calc(10px + 5vmin);
 }
 
 :root {
@@ -43,18 +49,11 @@
   100% { clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 100%, 0% 100%); }
 }
 
-.Outer {
-  position: relative;
-  height: 55vh;
-  justify-content: center;
-  font-size: calc(10px + 5vmin);
-}
-
 .Toilet-white {
   color: white;
   position: relative;
   height: 40vh;
-  z-index: 0;
+  width: 100%;
   clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 0%, 0% 0%);
   animation: white-toilet-fill 2s;
   top: 50%;
@@ -68,6 +67,7 @@
   height: 40vh;
   top: 0px;
   left: 0px;
+  width: 100%;
   clip-path: polygon(0% var(--end-toilet-height), 100% var(--end-toilet-height), 100% 100%, 0% 100%);
   animation: brown-toilet-fill 2s;
   top: 50%;
